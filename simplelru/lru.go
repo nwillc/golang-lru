@@ -5,11 +5,13 @@ import (
 	"errors"
 )
 
+var _ LRUCache[int, int] = (*LRU)(nil)
+
 // EvictCallback is used to get a callback when a cache entry is evicted
 type EvictCallback func(key interface{}, value interface{})
 
 // LRU implements a non-thread safe fixed size LRU cache
-type LRU struct {
+type LRU[K any, value any] struct {
 	size      int
 	evictList *list.List
 	items     map[interface{}]*list.Element

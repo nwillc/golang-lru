@@ -2,39 +2,39 @@
 package simplelru
 
 // LRUCache is the interface for simple LRU cache.
-type LRUCache interface {
-	// Adds a value to the cache, returns true if an eviction occurred and
+type LRUCache[K any, V any] interface {
+	// Add a value to the cache, returns true if an eviction occurred and
 	// updates the "recently used"-ness of the key.
-	Add(key, value interface{}) bool
+	Add(key K, value K) bool
 
-	// Returns key's value from the cache and
+	// Get returns key's value from the cache and
 	// updates the "recently used"-ness of the key. #value, isFound
-	Get(key interface{}) (value interface{}, ok bool)
+	Get(key K) (value K, ok bool)
 
-	// Checks if a key exists in cache without updating the recent-ness.
-	Contains(key interface{}) (ok bool)
+	// Contains checks if a key exists in cache without updating the recent-ness.
+	Contains(key K) (ok bool)
 
-	// Returns key's value without updating the "recently used"-ness of the key.
-	Peek(key interface{}) (value interface{}, ok bool)
+	// Peek returns key's value without updating the "recently used"-ness of the key.
+	Peek(key K) (value V, ok bool)
 
-	// Removes a key from the cache.
-	Remove(key interface{}) bool
+	// Remove a key from the cache.
+	Remove(key K) bool
 
-	// Removes the oldest entry from cache.
-	RemoveOldest() (interface{}, interface{}, bool)
+	// RemoveOldest removes the oldest entry from cache.
+	RemoveOldest() (K, V, bool)
 
-	// Returns the oldest entry from the cache. #key, value, isFound
-	GetOldest() (interface{}, interface{}, bool)
+	// GetOldest returns the oldest entry from the cache. #key, value, isFound
+	GetOldest() (K, V, bool)
 
-	// Returns a slice of the keys in the cache, from oldest to newest.
-	Keys() []interface{}
+	// Keys returns a slice of the keys in the cache, from oldest to newest.
+	Keys() []K
 
-	// Returns the number of items in the cache.
+	// Len returns the number of items in the cache.
 	Len() int
 
-	// Clears all cache entries.
+	// Purge clears all cache entries.
 	Purge()
 
-	// Resizes cache, returning number evicted
+	// Resize cache, returning number evicted
 	Resize(int) int
 }
